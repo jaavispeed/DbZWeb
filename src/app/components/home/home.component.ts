@@ -1,6 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { DbzService } from '../../services/dbz.service';
-import { tap } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { Character } from '../../services/models/characters.interface';
 
 @Component({
@@ -9,21 +9,31 @@ import { Character } from '../../services/models/characters.interface';
   imports: [],
   templateUrl: './home.component.html',
 })
-export default class HomeComponent implements OnInit {
+export default class HomeComponent implements OnInit, OnDestroy {
   //Injects
   private dbzService = inject(DbzService);
   //Variables
   character: Character[] = [];
+  // Subject para cancelar suscripciones y evitar fugas
+  cancelarSuscription = new Subject<void>();
+
+  ngOnDestroy(): void {
+    this.cancelarSuscription.next();
+    this.cancelarSuscription.complete();
+  }
 
   ngOnInit(): void {
-    this.dbzService
-      .getCharacters()
-      .pipe(
-        tap((characters) => {
-          console.log('Characters loaded:', characters);
-          this.character = characters
-        })
-      )
-      .subscribe();
+    this.characters();
+  }
+
+  characters() {
+    const characters = this.dbzService.getCharacters().pipe(
+      tap((characters) => {
+        this.character = characters;
+      }),
+      takeUntil(this.cancelarSuscription)
+    );
+
+    characters.subscribe();
   }
 }
