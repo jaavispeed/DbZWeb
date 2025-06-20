@@ -1,0 +1,58 @@
+<!-- <div
+  class="grid grid-cols-1 md:grid-cols-2 gap-x-5 place-items-center"
+>
+  @for(item of character; track item){
+  <div class="flex flex-cols-2 justify-center items-center mb-5 mt-30">
+    <section
+      class="bg-linear-to-r from-[#FF8C00] to-[#FFFF00] rounded-2xl p-4 flex gap-5"
+    >
+      <article class="flex flex-col justify-center gap-2">
+        <section
+          class="bg-[#FFFFFF] text-black rounded-lg px-4 py-1 flex gap-2"
+        >
+          <button class="font-bold">{{ item.name }}</button>
+        </section>
+
+        <section class="flex flex-col">
+          <span>{{ item.race }}</span>
+          <span>{{ item.ki }}</span>
+        </section>
+      </article>
+
+      <article class="relative flex items-end h-[100px]">
+        <img
+          [src]="item.image"
+          alt="{{ item.image }}"
+          class="h-60 relative -bottom-4"
+        />
+      </article>
+    </section>
+  </div>
+  }
+</div> -->
+
+
+  @for(item of character; track item){
+  <div class="flex justify-center items-center mb-5 mt-50">
+    <section
+      class="bg-[#1C1C1C] text-white rounded-2xl p-6 flex flex-col items-center gap-5 transition-all mx-14 md:flex-row"
+    >
+      <div
+        class="w-48 h-48 rounded-full overflow-hidden border-[12.5px] border-[#1C1C1C] -mt-32 sm:w-[330px] sm:h-[290px] sm:rounded-[20px] sm:border-0 transition-all ease-in-out md:mt-[25px] md:ml-[-60px] md:mb-[25px]"
+      >
+        <img
+          [src]="item.image"
+          alt="{{ item.image }}"
+          class="w-full h-full object-cover object-top"
+        />
+      </div>
+
+      <div class="mt-5 flex flex-col items-start text-left max-w-lg">
+        <h2 class="text-3xl font-bold">{{ item.name }}</h2>
+        <span class="text-lg opacity-70"> ki: {{ item.ki }} </span>
+        <p class="text-sm mt-2 text-gray-400">{{ item.description }}</p>
+      </div>
+    </section>
+  </div>
+  }
+
